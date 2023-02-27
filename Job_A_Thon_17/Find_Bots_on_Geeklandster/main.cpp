@@ -30,6 +30,19 @@ public:
  // } Driver Code Ends
 class Solution {
     unordered_set<int> primes;
+    void SieveOfEratosthenes(int n) {
+        bool prime[n + 1];
+        memset(prime, true, sizeof(prime));
+        for(int p = 2; p * p <= n; p++) {
+            if(prime[p] == true) {
+                for(int i = p * p; i <= n; i+= p)
+                    prime[i] = false;
+            }
+        }
+        for(int p = 2; p <= n; p++)
+            if(prime[p]) primes.insert(p);
+    }
+    /*
     void simpleSieve(int limit, vector<int> &prime) {
         vector<bool> mark(limit + 1, true);
         for(int p = 2; p * p < 12; p++) {
@@ -58,32 +71,30 @@ class Solution {
                 for(int j = loLim; j < high; j+= prime[i])
                     mark[j - low] = false;
             }
-            for(int i = low; i < high; i++) {
-                if(mark[i - low] == true) {
-                    primes.insert(i);
-                    cout << i << endl;
-                }
-            }
+            for(int i = low; i < high; i++)
+                if(mark[i - low] == true) primes.insert(i);
             low = low + limit;
             high = high + limit;
         }
     }
+    */
   public:
     vector<int> findBots(vector<string> &usernames, int n) {
         // code here
         vector<int> res(n, 0);
-        segmentedSieve(12);
+        SieveOfEratosthenes(12);
+        // segmentedSieve(12);
         for(int i = 0; i < n; i++) {
             int count = 0;
             unordered_set<char> unique;
-            for(int j = 0; j < usernames[i].length(); j++) {
+            for(int j = 0; j < usernames[i].length(); j+= 2) {
                 if(unique.find(usernames[i][j]) == unique.end()) {
                     unique.insert(usernames[i][j]);
                     count++;
                 }
             }
-            if(primes.find(count) == primes.end()) res[i] = 1;
-            else res[i] = 0;
+            if(primes.find(count) == primes.end()) res[i] = 0;
+            else res[i] = 1;
             unique.clear();
             count = 0;
         }
@@ -95,25 +106,21 @@ class Solution {
 // { Driver Code Starts.
 
 int main(){
-    int t = 1;
-    // scanf("%d ",&t);
+    int t;
+    scanf("%d ",&t);
     while(t--){
         
-        int n = 4;
-        // scanf("%d",&n);
+        int n;
+        scanf("%d",&n);
         
         
         vector<string> usernames(n);
-        usernames.push_back("abcdef");
-        usernames.push_back("pqrs");
-        usernames.push_back("xyzuvabb");
-        usernames.push_back("aaaaaa");
-        // Array::input(usernames,n);
+        Array::input(usernames,n);
         
         Solution obj;
         vector<int> res = obj.findBots(usernames, n);
         for(auto ele:res){
-            // cout<<ele<<" ";
+            cout<<ele<<" ";
         }
         cout<<endl;
         
