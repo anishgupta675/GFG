@@ -1,52 +1,57 @@
 //{ Driver Code Starts
-#include<bits/stdc++.h>
+#include <bits/stdc++.h>
 using namespace std;
 
 
 // } Driver Code Ends
-class Solution
-{
-    public:
-    //Function to find the maximum number of activities that can
-    //be performed by a single person.
-    int activitySelection(vector<int> start, vector<int> end, int n)
-    {
-        // Your code here
-        int i = 0, count = 0;
-        for(int j = 0; j < n; j++) {
-            if(start[j] >= end[i]) {
+
+class Solution {
+  public:
+    int activitySelection(vector<int> &start, vector<int> &finish) {
+        // code here
+        vector<pair<int,int>> activities;
+        for(int i = 0; i < start.size(); i++)
+            activities.push_back({finish[i], start[i]});
+        sort(activities.begin(), activities.end());
+        int count = 0, last = -1;
+        for(int i = 0; i < start.size(); i++)
+        {
+            if(activities[i].second > last)
+            {
                 count++;
-                i = j;
+                last = activities[i].first;
             }
         }
         return count;
     }
 };
 
+
 //{ Driver Code Starts.
-int main()
-{
+
+int main() {
     int t;
-    
-    //testcases
     cin >> t;
-    while(t--)
-    {
-        //size of array
-        int n;
-        cin >> n;
-        vector<int> start(n), end(n);
-        
-        //adding elements to arrays start and end
-        for(int i=0;i<n;i++)
-            cin>>start[i];
-        for(int i=0;i<n;i++)
-            cin>>end[i];
-        Solution ob;
-        //function call
-        cout << ob.activitySelection(start, end, n) << endl;
+    cin.ignore();
+    while (t--) {
+        string input;
+        getline(cin, input);
+        stringstream ss(input);
+        vector<int> start;
+        int num;
+        while (ss >> num)
+            start.push_back(num);
+        getline(cin, input);
+        ss.clear();
+        vector<int> finish;
+        ss.str(input);
+        while (ss >> num)
+            finish.push_back(num);
+
+        Solution obj;
+        cout << obj.activitySelection(start, finish) << endl;
+        cout << "~\n";
     }
     return 0;
 }
-
 // } Driver Code Ends
