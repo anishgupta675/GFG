@@ -1,3 +1,6 @@
+#include<bits/stdc++.h>
+using namespace std;
+
 class Solution {
   public:
     bool pythagoreanTriplet(vector<int>& arr) {
@@ -21,6 +24,9 @@ class Solution {
                 }
             }
         }
+        
         return false;
     }
 };
+
+int main() {}
